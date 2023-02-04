@@ -99,13 +99,14 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(holder.name.getContext(), "Data Updated Successfully", Toast.LENGTH_SHORT).show();
-                                        //dialogPlus.dismiss();
+                                        dialogPlus.dismiss();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Toast.makeText(holder.name.getContext(), "Error While Updating", Toast.LENGTH_SHORT).show();
+                                        dialogPlus.dismiss();
                                     }
                                 });
 
