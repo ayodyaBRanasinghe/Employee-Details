@@ -1,5 +1,7 @@
 package com.example.employeedetails;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull MainModel model) {
+    protected void onBindViewHolder(@NonNull myViewHolder holder, final int position, @NonNull MainModel model) {
         holder.name.setText(model.getName());
         holder.department.setText(model.getDepartment());
         holder.gender.setText(model.getGender());
@@ -93,6 +95,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                         map.put("address",address.getText().toString());
                         map.put("eurl",eurl.getText().toString());
 
+                        //for update button
+
                         FirebaseDatabase.getInstance().getReference().child("employee")
                                 .child(getRef(position).getKey()).updateChildren(map)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -112,6 +116,38 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
 
                     }
                 });
+
+            }
+        });
+        
+        //for delete button
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.name.getContext());
+                builder.setTitle("Are you sure?");
+                builder.setMessage("Deleted date can't be Undo.");
+
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        //make the delete implementation
+                        FirebaseDatabase.getInstance().getReference().child("employee")
+                                .child(getRef(position).getKey()).removeValue();
+
+                    }
+                });
+
+                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(holder.name.getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                //to show alert dialog button
+                builder.show();
 
             }
         });
