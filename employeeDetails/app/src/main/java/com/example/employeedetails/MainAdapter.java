@@ -119,7 +119,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
 
             }
         });
-        
+
         //for delete button
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
