@@ -54,6 +54,9 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                 .error(com.google.android.gms.base.R.drawable.common_google_signin_btn_icon_dark_normal)
                 .into(holder.img);
 
+
+        //make the edit operations to particular recycle view.
+        //bind the pop box in the update_popup.xml to the edit button
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,10 +65,15 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                         .setExpanded(true,1078)
                         .create();
 
+                //after clicking the Edit button dialog box should open below. to make it use the "dialog.plus.show()"
                 //dialogPlus.show();
 
+
+                //to view the update dialog box
                 View view = dialogPlus.getHolderView();
 
+
+                //to access the text fields in the update pop box
                 EditText name = view.findViewById(R.id.txtName);
                 EditText department = view.findViewById(R.id.txtDepartment);
                 EditText gender = view.findViewById(R.id.txtGender);
@@ -73,8 +81,10 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                 EditText address = view.findViewById(R.id.txtAddress);
                 EditText eurl = view.findViewById(R.id.txtImageUrl);
 
+                //to access the Update button
                 Button btnUpdate = view.findViewById(R.id.btnUpdate);
 
+                //to set the text in the text field in the update dialog box by fetching through the firebase
                 name.setText(model.getName());
                 department.setText(model.getDepartment());
                 gender.setText(model.getGender());
@@ -82,8 +92,10 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                 address.setText(model.getAddress());
                 eurl.setText(model.getEurl());
 
+                //to view the dialog box
                 dialogPlus.show();
 
+                //to make the click operations according to the update
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -102,13 +114,19 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
+
+                                        //when toast messages display after the successfully updated data.
                                         Toast.makeText(holder.name.getContext(), "Data Updated Successfully", Toast.LENGTH_SHORT).show();
+
+                                        //to close the update pop up box after click the update button on the dialog box.
                                         dialogPlus.dismiss();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
+
+                                        //when toast messages display after error in update details.
                                         Toast.makeText(holder.name.getContext(), "Error While Updating", Toast.LENGTH_SHORT).show();
                                         dialogPlus.dismiss();
                                     }
@@ -121,6 +139,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         });
 
         //for delete button
+        //for alert dialog box when click the delete button
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +150,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
 
                         //make the delete implementation
                         FirebaseDatabase.getInstance().getReference().child("employee")
@@ -166,6 +186,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
         CircleImageView img;
         TextView name,department,gender,email,address;
 
+        //link to access the edit and delete buttons.
         Button btnEdit,btnDelete;
 
 
@@ -179,6 +200,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel,MainAdapter.m
             email = (TextView)itemView.findViewById(R.id.emailtext);
             address = (TextView)itemView.findViewById(R.id.addresstext);
 
+            //link to access the edit and delete buttons.
             btnEdit = (Button)itemView.findViewById(R.id.btnEdit);
             btnDelete = (Button)itemView.findViewById(R.id.btnDelete);
         }

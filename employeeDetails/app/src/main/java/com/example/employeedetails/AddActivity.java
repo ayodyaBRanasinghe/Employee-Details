@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddActivity extends AppCompatActivity {
+
+    //register all the edit text.
 
     EditText name,department,gender,email,address,eurl;
     Button btnAdd,btnBack;
@@ -37,12 +40,20 @@ public class AddActivity extends AppCompatActivity {
         btnBack = (Button)findViewById(R.id.btnBack);
 
         //make the add button
+        //created the on click listener for both of the buttons.
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 insertData();
+
+                //validation of the email
+                validateEmailAddress(email);
+
+                //to clear the inserted input details from the form
                 clearAll();
+
 
             }
         });
@@ -59,8 +70,29 @@ public class AddActivity extends AppCompatActivity {
     }
 
 
-    /* saving to the variable & setting to the map & pass that
-          value to the firebase that inserted */
+    //validation of the email address
+    private boolean validateEmailAddress(EditText mail){
+        String mailInput = mail.getText().toString();
+
+        if(!mailInput.isEmpty() &&
+                Patterns.EMAIL_ADDRESS.matcher(mailInput).matches()){
+            Toast.makeText(this, "Email Validated Successfully", Toast.LENGTH_SHORT).show();
+            insertData();
+            return true;
+        }
+        else
+        {
+            Toast.makeText(this, "Invalid Email Address", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+
+
+
+
+    /* fetch all the inserted data and saving to the variable and setting to the map and pass that
+          value to the firebase that inserted through the form */
 
     private void insertData()
     {
@@ -96,6 +128,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     //after saving data again to get a new input fields.
+
     private void clearAll()
     {
         name.setText("");

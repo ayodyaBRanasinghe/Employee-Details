@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MainAdapter mainAdapter;
 
+    //added the floating action button that placed in the add_new.xml
     FloatingActionButton floatingActionButton;
 
 
@@ -39,7 +40,11 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter = new MainAdapter(options);
         recyclerView.setAdapter(mainAdapter);
 
+
+        //to register the floating action button
         floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingActionButton);
+
+        //implement the add function
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
